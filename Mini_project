@@ -1,0 +1,55 @@
+import java.util.Scanner;
+
+public class CatalanSeries {
+
+    // Calculate nth Catalan number using Dynamic Programming
+    // Formula: C(n) = C(0)*C(n-1) + C(1)*C(n-2) + ... + C(n-1)*C(0)
+    public static long[] generateCatalan(int n) {
+        long[] catalan = new long[n];
+
+        catalan[0] = 1; // C(0) = 1
+        if (n == 1) return catalan;
+        catalan[1] = 1; // C(1) = 1
+
+        for (int i = 2; i < n; i++) {
+            catalan[i] = 0;
+            for (int j = 0; j < i; j++) {
+                catalan[i] += catalan[j] * catalan[i - 1 - j];
+            }
+        }
+
+        return catalan;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of terms: ");
+        int n = scanner.nextInt();
+
+        if (n <= 0) {
+            System.out.println("Please enter a positive number.");
+            scanner.close();
+            return;
+        }
+
+        long[] series = generateCatalan(n);
+
+        System.out.println("\nCatalan Number Series (" + n + " terms):");
+        System.out.println("--------------------------------------");
+
+        for (int i = 0; i < n; i++) {
+            System.out.printf("C(%d) = %d%n", i, series[i]);
+        }
+
+        System.out.println("--------------------------------------");
+        System.out.print("Series: ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(series[i]);
+            if (i < n - 1) System.out.print(", ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}
